@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>تفاصيل طلبك</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
 :root {
   --bg: #F7F5F0;
@@ -25,228 +24,53 @@
   --shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  padding: 40px 16px;
-}
+body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 36px 16px; }
 .wrap { max-width: 520px; margin: 0 auto; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pop { 0% { transform:scale(0.5); opacity:0; } 80% { transform:scale(1.1); } 100% { transform:scale(1); opacity:1; } }
+@keyframes spin { to { transform:rotate(360deg); } }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.logo { display:flex; align-items:center; gap:12px; margin-bottom:24px; animation:fadeUp 0.3s ease; }
+.logo-mark { width:36px; height:36px; background:var(--ink); border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-size:16px; font-weight:600; }
+.logo span { font-size:15px; font-weight:500; color:var(--ink2); }
 
-.logo {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 28px;
-  animation: fadeUp 0.3s ease;
-}
-.logo-mark {
-  width: 36px; height: 36px;
-  background: var(--ink);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 16px; font-weight: 600;
-}
-.logo span { font-size: 15px; font-weight: 500; color: var(--ink2); }
+.card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:22px 26px; box-shadow:var(--shadow); margin-bottom:12px; animation:fadeUp 0.35s ease both; }
+.card:nth-child(2){animation-delay:.05s} .card:nth-child(3){animation-delay:.1s} .card:nth-child(4){animation-delay:.15s}
 
-.card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 24px 28px;
-  box-shadow: var(--shadow);
-  margin-bottom: 14px;
-  animation: fadeUp 0.35s ease both;
-}
-.card:nth-child(2) { animation-delay: 0.05s; }
-.card:nth-child(3) { animation-delay: 0.1s; }
-.card:nth-child(4) { animation-delay: 0.15s; }
+.section-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:14px; }
+.customer-name { font-size:22px; font-weight:600; margin-bottom:4px; }
+.order-meta { font-size:13px; color:var(--ink3); }
+.status-badge { display:inline-flex; align-items:center; gap:6px; background:var(--accent-light); color:var(--accent); border-radius:20px; padding:4px 12px; font-size:12px; font-weight:500; margin-top:10px; }
 
-.customer-name {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-.order-meta {
-  font-size: 13px;
-  color: var(--ink3);
-}
-.status-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--accent-light);
-  color: var(--accent);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  margin-top: 10px;
-}
+table { width:100%; border-collapse:collapse; font-size:14px; }
+thead th { text-align:right; padding:8px 10px; font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3); border-bottom:1px solid var(--border); }
+tbody tr { border-bottom:1px solid var(--border); }
+tbody tr:last-child { border-bottom:none; }
+tbody td { padding:10px 10px; }
+.qty-badge { display:inline-flex; align-items:center; justify-content:center; background:var(--bg); border:1px solid var(--border-mid); border-radius:6px; width:32px; height:28px; font-size:13px; font-weight:500; }
 
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink3);
-  margin-bottom: 14px;
-}
+label { display:block; font-size:13px; font-weight:500; color:var(--ink2); margin-bottom:8px; }
+input[type="tel"] { font-family:'IBM Plex Sans Arabic',sans-serif; font-size:16px; color:var(--ink); background:var(--bg); border:1px solid var(--border-mid); border-radius:var(--radius-sm); padding:12px 14px; width:100%; outline:none; transition:all .15s; direction:ltr; text-align:right; }
+input[type="tel"]:focus { border-color:var(--accent); background:white; box-shadow:0 0 0 3px rgba(200,82,26,.08); }
 
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-thead th {
-  text-align: right;
-  padding: 8px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--ink3);
-  border-bottom: 1px solid var(--border);
-}
-tbody tr { border-bottom: 1px solid var(--border); }
-tbody tr:last-child { border-bottom: none; }
-tbody td { padding: 10px 10px; font-size: 14px; }
-.qty-badge {
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--bg);
-  border: 1px solid var(--border-mid);
-  border-radius: 6px;
-  width: 32px; height: 28px;
-  font-size: 13px; font-weight: 500;
-}
+.confirm-btn { width:100%; background:var(--green); color:white; border:none; border-radius:var(--radius-sm); padding:15px; font-family:'IBM Plex Sans Arabic',sans-serif; font-size:16px; font-weight:500; cursor:pointer; transition:all .15s; margin-top:14px; display:flex; align-items:center; justify-content:center; gap:8px; }
+.confirm-btn:hover { background:#1f4d1f; }
+.confirm-btn:disabled { opacity:.6; cursor:not-allowed; }
 
-.field { margin-bottom: 0; }
-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink2);
-  margin-bottom: 8px;
-}
-input[type="tel"] {
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 16px;
-  color: var(--ink);
-  background: var(--bg);
-  border: 1px solid var(--border-mid);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  width: 100%;
-  outline: none;
-  transition: all 0.15s;
-  direction: ltr;
-  text-align: right;
-}
-input[type="tel"]:focus {
-  border-color: var(--accent);
-  background: white;
-  box-shadow: 0 0 0 3px rgba(200,82,26,0.08);
-}
+.loading { text-align:center; padding:80px 20px; }
+.spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--ink); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 16px; }
 
-.confirm-btn {
-  width: 100%;
-  background: var(--green);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 15px;
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  margin-top: 14px;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.confirm-btn:hover { background: #1f4d1f; }
-.confirm-btn:active { transform: scale(0.99); }
-.confirm-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.error-screen { text-align:center; padding:80px 20px; }
+.error-screen h2 { font-size:20px; margin-bottom:8px; }
 
-/* Success screen */
-.success-screen {
-  display: none;
-  text-align: center;
-  padding: 20px;
-  animation: fadeUp 0.4s ease;
-}
-.success-screen.show { display: block; }
+.success-screen { display:none; text-align:center; padding:20px; animation:fadeUp .4s ease; }
+.success-screen.show { display:block; }
+.checkmark { width:80px; height:80px; background:var(--green-light); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 20px; animation:pop .4s ease; }
+.success-screen h2 { font-size:24px; font-weight:600; margin-bottom:8px; color:var(--green); }
+.success-screen p { color:var(--ink2); font-size:14px; line-height:1.7; }
 
-.checkmark {
-  width: 80px; height: 80px;
-  background: var(--green-light);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 36px;
-  margin: 0 auto 20px;
-  animation: pop 0.4s ease;
-}
-@keyframes pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  80% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.success-screen h2 { font-size: 24px; font-weight: 600; margin-bottom: 8px; color: var(--green); }
-.success-screen p { color: var(--ink2); font-size: 14px; line-height: 1.7; }
-
-/* Loading */
-.loading {
-  text-align: center;
-  padding: 80px 20px;
-}
-.spinner {
-  width: 36px; height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--ink);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin: 0 auto 16px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.error-screen {
-  text-align: center;
-  padding: 80px 20px;
-}
-.error-screen h2 { font-size: 20px; margin-bottom: 8px; }
-.error-screen p { color: var(--ink2); font-size: 14px; }
-
-/* PDF receipt (hidden, used for capture) */
-#pdf-receipt {
-  position: fixed;
-  left: -9999px;
-  top: 0;
-  width: 480px;
-  background: white;
-  padding: 40px;
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  direction: rtl;
-}
-.receipt-header { text-align: center; margin-bottom: 24px; border-bottom: 2px solid #1C1A17; padding-bottom: 16px; }
-.receipt-header h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-.receipt-header p { font-size: 12px; color: #888; }
-.receipt-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
-.receipt-row .k { color: #888; }
-.receipt-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
-.receipt-table th { text-align: right; padding: 8px; background: #F7F5F0; border-bottom: 1px solid #eee; font-weight: 600; color: #555; }
-.receipt-table td { padding: 8px; border-bottom: 1px solid #f0f0f0; }
-.receipt-footer { text-align: center; margin-top: 24px; font-size: 11px; color: #aaa; border-top: 1px solid #eee; padding-top: 12px; }
-
-.toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%);
-  background: var(--ink); color: white;
-  border-radius: var(--radius-sm);
-  padding: 12px 20px; font-size: 14px;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.2s; z-index: 99;
-  white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-.toast.show { opacity: 1; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--ink); color:white; border-radius:var(--radius-sm); padding:12px 20px; font-size:14px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:99; white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,.15); }
+.toast.show { opacity:1; }
 </style>
 </head>
 <body>
@@ -256,20 +80,17 @@ input[type="tel"]:focus {
     <span>نظام التوصيل</span>
   </div>
 
-  <!-- Loading -->
   <div id="loading-screen" class="loading">
     <div class="spinner"></div>
     <p style="color:var(--ink2);font-size:14px">جارٍ تحميل بيانات الطلب...</p>
   </div>
 
-  <!-- Error -->
   <div id="error-screen" class="error-screen" style="display:none">
     <div style="font-size:40px;margin-bottom:12px">⚠️</div>
     <h2>الطلب غير موجود</h2>
-    <p>الرابط غير صحيح أو انتهت صلاحيته</p>
+    <p style="color:var(--ink2);font-size:14px">الرابط غير صحيح أو انتهت صلاحيته</p>
   </div>
 
-  <!-- Order details -->
   <div id="order-content" style="display:none">
     <div class="card">
       <div class="customer-name" id="cust-name-display"></div>
@@ -284,76 +105,48 @@ input[type="tel"]:focus {
           <tr>
             <th>المنتج</th>
             <th style="text-align:center;width:80px">الكمية</th>
-            <th style="width:120px">ملاحظة</th>
+            <th style="width:110px">ملاحظة</th>
           </tr>
         </thead>
         <tbody id="products-display"></tbody>
       </table>
     </div>
 
-    <div class="card" id="phone-card">
+    <div class="card">
       <div class="section-label">تأكيد الاستلام</div>
-      <div class="field">
-        <label>أدخل رقم جوالك لتأكيد الاستلام وإرسال الإيصال</label>
-        <input type="tel" id="cust-phone" placeholder="05xxxxxxxx" />
-      </div>
+      <label>أدخل رقم جوالك لتأكيد الاستلام وإرسال الإيصال</label>
+      <input type="tel" id="cust-phone" placeholder="05xxxxxxxx" />
       <button class="confirm-btn" id="confirm-btn" onclick="confirmDelivery()">
         ✅ تم الاستلام
       </button>
     </div>
   </div>
 
-  <!-- Success -->
   <div class="success-screen" id="success-screen">
     <div class="checkmark">✓</div>
     <h2>تم الاستلام بنجاح!</h2>
-    <p>شكراً لك! تم تسجيل استلامك للطلب.<br/>سيصلك الإيصال على واتساب قريباً.</p>
+    <p>شكراً لك! تم تسجيل استلامك للطلب.<br/>سيصلك الإيصال على واتساب الآن.</p>
   </div>
-</div>
-
-<!-- Hidden PDF receipt -->
-<div id="pdf-receipt">
-  <div class="receipt-header">
-    <h2>إيصال توصيل</h2>
-    <p id="r-company">نظام التوصيل — ygii.app</p>
-  </div>
-  <div class="receipt-row"><span class="k">العميل</span><span id="r-name"></span></div>
-  <div class="receipt-row"><span class="k">الجوال</span><span id="r-phone" dir="ltr"></span></div>
-  <div class="receipt-row"><span class="k">التاريخ</span><span id="r-date"></span></div>
-  <div class="receipt-row"><span class="k">رقم الطلب</span><span id="r-id" style="font-size:11px;color:#888"></span></div>
-  <table class="receipt-table">
-    <thead><tr><th>المنتج</th><th style="text-align:center;width:60px">الكمية</th><th>ملاحظة</th></tr></thead>
-    <tbody id="r-products"></tbody>
-  </table>
-  <div class="receipt-footer">تم التوصيل بنجاح ✓ — شكراً لثقتكم</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = 'https://vsesudmfoljaumdunhnj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_QDkHvfDNENs1Cu0yeOcS3w_JkzaTcpk';
-const NOTIFY_EMAILS = ['monera@ygii.app', 'asj@ygii.app', 'hello@ygii.app'];
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let orderData = null;
+const NOTIFY_EMAILS = ['monera@ygii.app','asj@ygii.app','hello@ygii.app'];
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let order = null;
 
 async function loadOrder() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+  const id = new URLSearchParams(window.location.search).get('id');
   if (!id) { showError(); return; }
 
-  const { data, error } = await supabase
-    .from('orders')
-    .select('*')
-    .eq('id', id)
-    .single();
-
+  const { data, error } = await sb.from('orders').select('*').eq('id', id).single();
   if (error || !data) { showError(); return; }
+  order = data;
 
-  orderData = data;
-
-  // If already delivered
   if (data.status === 'delivered') {
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('success-screen').classList.add('show');
@@ -362,98 +155,68 @@ async function loadOrder() {
 
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('order-content').style.display = 'block';
-
   document.getElementById('cust-name-display').textContent = data.customer_name;
-  document.getElementById('order-date-display').textContent =
-    'تاريخ الطلب: ' + new Date(data.created_at).toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('order-date-display').textContent = 'تاريخ الطلب: ' + new Date(data.created_at).toLocaleDateString('ar-SA', { year:'numeric', month:'long', day:'numeric' });
 
   const tbody = document.getElementById('products-display');
   data.products.forEach(p => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td style="font-weight:500">${p.name}</td>
-      <td style="text-align:center"><span class="qty-badge">${p.qty}</span></td>
-      <td style="color:var(--ink3);font-size:13px">${p.note || '—'}</td>
-    `;
+    tr.innerHTML = `<td style="font-weight:500">${p.name}</td><td style="text-align:center"><span class="qty-badge">${p.qty}</span></td><td style="color:var(--ink3);font-size:13px">${p.note||'—'}</td>`;
     tbody.appendChild(tr);
   });
 }
 
 async function confirmDelivery() {
   const phone = document.getElementById('cust-phone').value.trim();
-  if (!phone || phone.length < 9) { showToast('❌ الرجاء إدخال رقم جوال صحيح'); return; }
+  if (!phone || phone.length < 9) { showToast('❌ أدخل رقم جوال صحيح'); return; }
 
   const btn = document.getElementById('confirm-btn');
-  btn.disabled = true;
-  btn.innerHTML = 'جارٍ المعالجة...';
+  btn.disabled = true; btn.textContent = 'جارٍ المعالجة...';
 
-  // Update order in Supabase
-  await supabase
-    .from('orders')
-    .update({ status: 'delivered', customer_phone: phone })
-    .eq('id', orderData.id);
+  await sb.from('orders').update({ status: 'delivered', customer_phone: phone }).eq('id', order.id);
 
-  // Show success
   document.getElementById('order-content').style.display = 'none';
   document.getElementById('success-screen').classList.add('show');
 
-  // Build receipt and send WhatsApp
-  buildReceipt(phone);
-
   setTimeout(() => {
     sendWhatsApp(phone);
-    sendEmailNotification(phone);
-  }, 800);
-}
-
-function buildReceipt(phone) {
-  document.getElementById('r-name').textContent = orderData.customer_name;
-  document.getElementById('r-phone').textContent = phone;
-  document.getElementById('r-date').textContent = new Date().toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' });
-  document.getElementById('r-id').textContent = orderData.id.substring(0, 8).toUpperCase();
-
-  const tbody = document.getElementById('r-products');
-  tbody.innerHTML = '';
-  orderData.products.forEach(p => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${p.name}</td><td style="text-align:center">${p.qty}</td><td style="color:#888">${p.note || '—'}</td>`;
-    tbody.appendChild(tr);
-  });
+    sendEmail(phone);
+  }, 600);
 }
 
 function sendWhatsApp(phone) {
-  const cleanPhone = phone.replace(/\D/g, '');
-  const fullPhone = cleanPhone.startsWith('966') ? cleanPhone : '966' + cleanPhone.replace(/^0/, '');
+  const clean = phone.replace(/\D/g,'');
+  const full = clean.startsWith('966') ? clean : '966' + clean.replace(/^0/,'');
+  const total = order.products.reduce((s,p) => s + p.qty, 0);
+  const date = new Date().toLocaleDateString('ar-SA');
 
-  const total = orderData.products.reduce((s, p) => s + p.qty, 0);
-  let msg = `✅ إيصال توصيل\n`;
+  let msg = `✅ إيصال استلام\n`;
   msg += `━━━━━━━━━━━━━━\n`;
-  msg += `👤 العميل: ${orderData.customer_name}\n`;
-  msg += `📅 التاريخ: ${new Date().toLocaleDateString('ar-SA')}\n`;
+  msg += `👤 الاسم: ${order.customer_name}\n`;
+  msg += `📅 التاريخ: ${date}\n`;
+  msg += `🔖 رقم الطلب: ${order.id.substring(0,8).toUpperCase()}\n`;
   msg += `━━━━━━━━━━━━━━\n📦 المنتجات:\n`;
-  orderData.products.forEach((p, i) => {
+  order.products.forEach((p,i) => {
     msg += `${i+1}. ${p.name} — الكمية: ${p.qty}${p.note ? ` (${p.note})` : ''}\n`;
   });
   msg += `━━━━━━━━━━━━━━\n`;
   msg += `📊 الإجمالي: ${total} وحدة\n`;
-  msg += `✔️ تم التسليم بنجاح\n\nشكراً لثقتكم 🙏`;
+  msg += `✔️ تم الاستلام بنجاح\n\nشكراً لثقتكم 🙏`;
 
-  window.open(`https://wa.me/${fullPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  window.open(`https://wa.me/${full}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-function sendEmailNotification(phone) {
-  const subject = `تم توصيل طلب — ${orderData.customer_name}`;
-  const total = orderData.products.reduce((s, p) => s + p.qty, 0);
-  let body = `تم توصيل الطلب بنجاح\n\n`;
-  body += `العميل: ${orderData.customer_name}\n`;
+function sendEmail(phone) {
+  const subject = `تم توصيل طلب — ${order.customer_name}`;
+  const total = order.products.reduce((s,p) => s + p.qty, 0);
+  let body = `تم توصيل الطلب بنجاح ✅\n\n`;
+  body += `العميل: ${order.customer_name}\n`;
   body += `الجوال: ${phone}\n`;
   body += `التاريخ: ${new Date().toLocaleString('ar-SA')}\n\n`;
   body += `المنتجات:\n`;
-  orderData.products.forEach((p, i) => { body += `${i+1}. ${p.name} — الكمية: ${p.qty}\n`; });
+  order.products.forEach((p,i) => { body += `${i+1}. ${p.name} — الكمية: ${p.qty}\n`; });
   body += `\nالإجمالي: ${total} وحدة`;
-
-  const to = NOTIFY_EMAILS.join(',');
-  window.open(`mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  window.open(`mailto:${NOTIFY_EMAILS.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
 }
 
 function showError() {
@@ -463,8 +226,7 @@ function showError() {
 
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
