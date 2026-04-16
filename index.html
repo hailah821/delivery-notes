@@ -3,237 +3,64 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>إضافة طلب توصيل</title>
+<title>إضافة طلب — الأدمن</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --bg: #F7F5F0;
-  --surface: #FFFFFF;
-  --ink: #1C1A17;
-  --ink2: #6B6760;
-  --ink3: #AAA79F;
-  --accent: #C8521A;
-  --accent-light: #FAF0EA;
-  --border: rgba(28,26,23,0.1);
-  --border-mid: rgba(28,26,23,0.18);
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --bg: #F7F5F0; --surface: #FFFFFF; --ink: #1C1A17; --ink2: #6B6760; --ink3: #AAA79F;
+  --accent: #C8521A; --accent-light: #FAF0EA; --border: rgba(28,26,23,0.1);
+  --border-mid: rgba(28,26,23,0.18); --radius: 14px; --radius-sm: 8px; --shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  padding: 40px 16px;
-}
+body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 40px 16px; }
 .wrap { max-width: 580px; margin: 0 auto; }
-
-.logo {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 36px;
-}
-.logo-mark {
-  width: 40px; height: 40px;
-  background: var(--ink);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 18px; font-weight: 600;
-}
-.logo h1 { font-size: 18px; font-weight: 500; }
-.logo p { font-size: 13px; color: var(--ink3); }
-
-.card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 28px;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-  animation: fadeUp 0.3s ease both;
-}
-.card:nth-child(2) { animation-delay: 0.05s; }
-.card:nth-child(3) { animation-delay: 0.1s; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink3);
-  margin-bottom: 18px;
-  display: flex; align-items: center; gap: 8px;
-}
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-.field { margin-bottom: 16px; }
-.field:last-child { margin-bottom: 0; }
-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink2);
-  margin-bottom: 6px;
-}
-input[type="text"], input[type="tel"] {
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 15px;
-  color: var(--ink);
-  background: var(--bg);
-  border: 1px solid var(--border-mid);
-  border-radius: var(--radius-sm);
-  padding: 11px 14px;
-  width: 100%;
-  outline: none;
-  transition: all 0.15s;
-}
-input:focus {
-  border-color: var(--accent);
-  background: white;
-  box-shadow: 0 0 0 3px rgba(200,82,26,0.08);
-}
-
-/* Products table */
-.tbl-wrap { overflow-x: auto; margin-bottom: 12px; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-thead th {
-  text-align: right;
-  padding: 8px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--ink3);
-  border-bottom: 1px solid var(--border);
-}
-tbody tr { border-bottom: 1px solid var(--border); }
-tbody tr:last-child { border-bottom: none; }
-tbody td { padding: 6px 6px; }
-tbody td input[type="text"],
-tbody td input[type="number"] {
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  padding: 6px 8px;
-  width: 100%;
-  outline: none;
-  transition: all 0.12s;
-}
-tbody td input:focus {
-  background: var(--accent-light);
-  border-color: rgba(200,82,26,0.3);
-  box-shadow: none;
-}
-tbody td input[type="number"] { text-align: center; width: 70px; }
-
-.add-btn {
-  background: none; border: none;
-  color: var(--accent);
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 13px; font-weight: 500;
-  cursor: pointer;
-  padding: 6px 0;
-  display: flex; align-items: center; gap: 6px;
-  transition: opacity 0.15s;
-}
-.add-btn:hover { opacity: 0.7; }
-
-.del-btn {
-  background: none; border: none;
-  width: 28px; height: 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: var(--ink3);
-  font-size: 15px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.12s;
-}
-.del-btn:hover { background: #FCE8E8; color: #C0392B; }
-
-.submit-btn {
-  width: 100%;
-  background: var(--ink);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 8px;
-}
-.submit-btn:hover { background: #333; }
-.submit-btn:active { transform: scale(0.99); }
-.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%);
-  background: var(--ink); color: white;
-  border-radius: var(--radius-sm);
-  padding: 12px 20px; font-size: 14px;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.2s;
-  z-index: 99; white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-.toast.show { opacity: 1; }
-
-.success-screen {
-  display: none;
-  text-align: center;
-  padding: 60px 20px;
-  animation: fadeUp 0.4s ease;
-}
-.success-screen.show { display: block; }
-.success-icon {
-  width: 72px; height: 72px;
-  background: #E8F5E8;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px;
-  margin: 0 auto 20px;
-}
-.success-screen h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
-.success-screen p { color: var(--ink2); font-size: 14px; margin-bottom: 24px; }
-.new-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--ink); color: white;
-  border: none; border-radius: var(--radius-sm);
-  padding: 12px 24px;
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 14px; font-weight: 500;
-  cursor: pointer; transition: background 0.15s;
-}
-.new-btn:hover { background: #333; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.logo { display:flex; align-items:center; gap:12px; margin-bottom:32px; animation:fadeUp 0.3s ease; }
+.logo-mark { width:40px; height:40px; background:var(--ink); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:18px; font-weight:600; }
+.logo h1 { font-size:18px; font-weight:500; }
+.logo p { font-size:13px; color:var(--ink3); }
+.card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:24px 28px; box-shadow:var(--shadow); margin-bottom:14px; animation:fadeUp 0.35s ease both; }
+.section-label { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.field { margin-bottom:14px; }
+label { display:block; font-size:13px; font-weight:500; color:var(--ink2); margin-bottom:6px; }
+input[type="text"], input[type="tel"] { font-family:'IBM Plex Sans Arabic',sans-serif; font-size:15px; color:var(--ink); background:var(--bg); border:1px solid var(--border-mid); border-radius:var(--radius-sm); padding:11px 14px; width:100%; outline:none; transition:all 0.15s; }
+input:focus { border-color:var(--accent); background:white; box-shadow:0 0 0 3px rgba(200,82,26,0.08); }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+thead th { text-align:right; padding:8px 10px; font-size:11px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink3); border-bottom:1px solid var(--border); }
+tbody tr { border-bottom:1px solid var(--border); }
+tbody tr:last-child { border-bottom:none; }
+tbody td { padding:5px 5px; }
+.td-input { font-family:'IBM Plex Sans Arabic',sans-serif; font-size:14px; color:var(--ink); background:transparent; border:1px solid transparent; border-radius:6px; padding:7px 8px; width:100%; outline:none; transition:all 0.12s; }
+.td-input:focus { background:var(--accent-light); border-color:rgba(200,82,26,0.3); }
+.td-num { text-align:center; width:70px; }
+.add-btn { background:none; border:none; color:var(--accent); font-family:'IBM Plex Sans Arabic',sans-serif; font-size:13px; font-weight:500; cursor:pointer; padding:8px 0; display:flex; align-items:center; gap:6px; }
+.add-btn:hover { opacity:0.7; }
+.del-btn { background:none; border:none; width:28px; height:28px; border-radius:6px; cursor:pointer; color:var(--ink3); font-size:15px; display:flex; align-items:center; justify-content:center; transition:all 0.12s; }
+.del-btn:hover { background:#FCE8E8; color:#C0392B; }
+.submit-btn { width:100%; background:var(--ink); color:white; border:none; border-radius:var(--radius-sm); padding:14px; font-family:'IBM Plex Sans Arabic',sans-serif; font-size:15px; font-weight:500; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; gap:8px; }
+.submit-btn:hover { background:#333; }
+.submit-btn:disabled { opacity:0.6; cursor:not-allowed; }
+.success-screen { display:none; text-align:center; padding:50px 20px; animation:fadeUp 0.4s ease; }
+.success-screen.show { display:block; }
+.success-icon { width:72px; height:72px; background:#E8F5E8; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px; }
+.success-screen h2 { font-size:22px; font-weight:500; margin-bottom:8px; }
+.success-screen p { color:var(--ink2); font-size:14px; margin-bottom:24px; line-height:1.7; }
+.btn-group { display:flex; flex-direction:column; gap:10px; max-width:320px; margin:0 auto; }
+.btn { display:flex; align-items:center; justify-content:center; gap:8px; padding:13px 20px; border-radius:var(--radius-sm); font-family:'IBM Plex Sans Arabic',sans-serif; font-size:14px; font-weight:500; cursor:pointer; border:none; transition:all 0.15s; }
+.btn-dark { background:var(--ink); color:white; }
+.btn-dark:hover { background:#333; }
+.btn-accent { background:var(--accent); color:white; }
+.btn-accent:hover { background:#AA421A; }
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--ink); color:white; border-radius:var(--radius-sm); padding:12px 20px; font-size:14px; opacity:0; pointer-events:none; transition:opacity 0.2s; z-index:99; white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,0.15); }
+.toast.show { opacity:1; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="logo">
     <div class="logo-mark">ت</div>
-    <div>
-      <h1>نظام التوصيل</h1>
-      <p>إضافة طلب جديد</p>
-    </div>
+    <div><h1>نظام التوصيل</h1><p>لوحة الأدمن</p></div>
   </div>
 
   <div id="main-form">
@@ -247,117 +74,108 @@ tbody td input[type="number"] { text-align: center; width: 70px; }
 
     <div class="card">
       <div class="section-label">المنتجات والكميات</div>
-      <div class="tbl-wrap">
+      <div style="overflow-x:auto;margin-bottom:10px">
         <table>
           <thead>
             <tr>
               <th style="width:50%">اسم المنتج</th>
-              <th style="width:20%;text-align:center">الكمية</th>
-              <th style="width:30%">ملاحظة</th>
+              <th style="width:18%;text-align:center">الكمية</th>
+              <th style="width:27%">ملاحظة</th>
               <th style="width:40px"></th>
             </tr>
           </thead>
           <tbody id="products-body"></tbody>
         </table>
       </div>
-      <button class="add-btn" onclick="addRow()">＋ إضافة منتج</button>
+      <button class="add-btn" id="add-row-btn">＋ إضافة منتج</button>
     </div>
 
     <div class="card">
-      <div class="section-label">إرسال الطلب</div>
-      <button class="submit-btn" id="submit-btn" onclick="submitOrder()">
-        <span>إنشاء الطلب وإرسال الرابط للعميل</span>
-      </button>
-      <p style="font-size:12px;color:var(--ink3);text-align:center;margin-top:10px">سيتم إرسال رابط الطلب للعميل عبر واتساب بعد إدخال رقمه</p>
+      <div class="section-label">بيانات المندوب</div>
+      <div class="field">
+        <label>رقم واتساب المندوب *</label>
+        <input type="tel" id="driver-phone" placeholder="05xxxxxxxx" value="0551514493" />
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="submit-btn" id="submit-btn">إنشاء الطلب وإرسال للمندوب 📲</button>
     </div>
   </div>
 
   <div class="success-screen" id="success-screen">
     <div class="success-icon">✓</div>
     <h2>تم إنشاء الطلب!</h2>
-    <p id="success-msg">الطلب جاهز، افتح الرابط أمام العميل</p>
-    <div style="display:flex;flex-direction:column;gap:10px;max-width:300px;margin:0 auto">
-      <button class="new-btn" id="open-order-btn">فتح صفحة العميل</button>
-      <button class="new-btn" style="background:var(--accent)" onclick="resetForm()">إضافة طلب جديد</button>
+    <p id="success-msg">تم إرسال رابط الطلب للمندوب على واتساب</p>
+    <div class="btn-group">
+      <button class="btn btn-dark" id="open-btn">فتح صفحة الطلب</button>
+      <button class="btn btn-accent" id="new-order-btn">إضافة طلب جديد</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL = 'https://vsesudmfoljaumdunhnj.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_QDkHvfDNENs1Cu0yeOcS3w_JkzaTcpk';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+var sb = null;
 
-let rowCount = 0;
-let createdOrderId = null;
+window.addEventListener('DOMContentLoaded', function() {
+  sb = window.supabase.createClient(
+    'https://vsesudmfoljaumdunhnj.supabase.co',
+    'sb_publishable_QDkHvfDNENs1Cu0yeOcS3w_JkzaTcpk'
+  );
+
+  document.getElementById('add-row-btn').addEventListener('click', addRow);
+  document.getElementById('submit-btn').addEventListener('click', submitOrder);
+  document.getElementById('new-order-btn').addEventListener('click', resetForm);
+
+  addRow();
+  addRow();
+});
+
+var rowCount = 0;
 
 function addRow() {
-  const tbody = document.getElementById('products-body');
-  const id = rowCount++;
-  const tr = document.createElement('tr');
+  var tbody = document.getElementById('products-body');
+  var id = rowCount++;
+  var tr = document.createElement('tr');
   tr.id = 'row-' + id;
-  tr.innerHTML = `
-    <td><input type="text" placeholder="اسم المنتج" /></td>
-    <td style="text-align:center"><input type="number" min="1" value="1" /></td>
-    <td><input type="text" placeholder="اختياري" /></td>
-    <td><button class="del-btn" onclick="removeRow(${id})">×</button></td>
-  `;
+  tr.innerHTML =
+    '<td><input type="text" class="td-input" placeholder="اسم المنتج" /></td>' +
+    '<td style="text-align:center"><input type="number" class="td-input td-num" min="1" value="1" /></td>' +
+    '<td><input type="text" class="td-input" placeholder="اختياري" /></td>' +
+    '<td><button class="del-btn" data-id="' + id + '">×</button></td>';
   tbody.appendChild(tr);
+  tr.querySelector('.del-btn').addEventListener('click', function() {
+    var row = document.getElementById('row-' + this.getAttribute('data-id'));
+    if (row) row.remove();
+  });
 }
 
-function removeRow(id) {
-  const row = document.getElementById('row-' + id);
-  if (row) row.remove();
-}
-
-function getFormData() {
-  const name = document.getElementById('cust-name').value.trim();
-  const rows = document.querySelectorAll('#products-body tr');
-  const products = [];
-  rows.forEach(row => {
-    const inputs = row.querySelectorAll('input');
-    if (inputs[0] && inputs[0].value.trim()) {
+function getForm() {
+  var name = document.getElementById('cust-name').value.trim();
+  var driverPhone = document.getElementById('driver-phone').value.trim();
+  var rows = document.querySelectorAll('#products-body tr');
+  var products = [];
+  rows.forEach(function(r) {
+    var ins = r.querySelectorAll('input');
+    if (ins[0] && ins[0].value.trim()) {
       products.push({
-        name: inputs[0].value.trim(),
-        qty: parseInt(inputs[1]?.value) || 1,
-        note: inputs[2]?.value.trim() || ''
+        name: ins[0].value.trim(),
+        qty: parseInt(ins[1] ? ins[1].value : '1') || 1,
+        note: ins[2] ? ins[2].value.trim() : ''
       });
     }
   });
-  return { name, products };
+  return { name: name, driverPhone: driverPhone, products: products };
 }
 
-async function submitOrder() {
-  const d = getFormData();
-  if (!d.name) { showToast('❌ الرجاء إدخال اسم العميل'); return; }
-  if (d.products.length === 0) { showToast('❌ أضف منتجاً واحداً على الأقل'); return; }
-
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span>جارٍ الحفظ...</span>';
-
-  const { data, error } = await supabase
-    .from('orders')
-    .insert([{ customer_name: d.name, products: d.products, status: 'pending' }])
-    .select()
-    .single();
-
-  if (error) {
-    showToast('❌ حدث خطأ، حاول مجدداً');
-    btn.disabled = false;
-    btn.innerHTML = '<span>إنشاء الطلب وإرسال الرابط للعميل</span>';
-    return;
-  }
-
-  createdOrderId = data.id;
-  const orderUrl = `${window.location.origin}/order.html?id=${data.id}`;
-
-  document.getElementById('main-form').style.display = 'none';
-  document.getElementById('success-screen').classList.add('show');
-  document.getElementById('success-msg').textContent = `طلب ${d.name} جاهز — افتح الصفحة أمام العميل`;
-  document.getElementById('open-order-btn').onclick = () => window.open(orderUrl, '_blank');
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
 }
 
 function resetForm() {
@@ -366,20 +184,46 @@ function resetForm() {
   document.getElementById('cust-name').value = '';
   document.getElementById('products-body').innerHTML = '';
   rowCount = 0;
-  const btn = document.getElementById('submit-btn');
+  var btn = document.getElementById('submit-btn');
   btn.disabled = false;
-  btn.innerHTML = '<span>إنشاء الطلب وإرسال الرابط للعميل</span>';
-  addRow(); addRow();
+  btn.textContent = 'إنشاء الطلب وإرسال للمندوب 📲';
+  addRow();
+  addRow();
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
+async function submitOrder() {
+  var d = getForm();
+  if (!d.name) { showToast('❌ أدخل اسم العميل'); return; }
+  if (!d.driverPhone) { showToast('❌ أدخل رقم المندوب'); return; }
+  if (d.products.length === 0) { showToast('❌ أضف منتجاً واحداً على الأقل'); return; }
 
-addRow(); addRow();
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'جارٍ الحفظ...';
+
+  var result = await sb.from('orders')
+    .insert([{ customer_name: d.name, products: d.products, status: 'pending', driver_phone: d.driverPhone }])
+    .select().single();
+
+  if (result.error) {
+    showToast('❌ خطأ: ' + result.error.message);
+    btn.disabled = false;
+    btn.textContent = 'إنشاء الطلب وإرسال للمندوب 📲';
+    return;
+  }
+
+  var orderUrl = 'https://delivery-notes-ashy.vercel.app/order.html?id=' + result.data.id;
+  var phone = d.driverPhone.replace(/\D/g, '');
+  var fullPhone = phone.startsWith('966') ? phone : '966' + phone.replace(/^0/, '');
+  var msg = '📦 طلب توصيل جديد\nالعميل: ' + d.name + '\n\nافتح الرابط أمام العميل لتأكيد الاستلام:\n' + orderUrl;
+
+  window.open('https://wa.me/' + fullPhone + '?text=' + encodeURIComponent(msg), '_blank');
+
+  document.getElementById('main-form').style.display = 'none';
+  document.getElementById('success-screen').classList.add('show');
+  document.getElementById('success-msg').textContent = 'تم إرسال رابط طلب ' + d.name + ' للمندوب على واتساب ✅';
+  document.getElementById('open-btn').onclick = function() { window.open(orderUrl, '_blank'); };
+}
 </script>
 </body>
 </html>
