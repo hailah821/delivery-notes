@@ -136,11 +136,16 @@ input[type="tel"]:focus { border-color:var(--accent); background:white; box-shad
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 const SUPABASE_URL = 'https://vsesudmfoljaumdunhnj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_QDkHvfDNENs1Cu0yeOcS3w_JkzaTcpk';
+const EMAILJS_SERVICE = 'service_eha4jd3';
+const EMAILJS_TEMPLATE = 'template_lou2yhl';
+const EMAILJS_PUBLIC_KEY = 'avFdnsHcb_BMzPr2I';
 const NOTIFY_EMAILS = ['monera@ygii.app','asj@ygii.app','hello@ygii.app'];
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+emailjs.init(EMAILJS_PUBLIC_KEY);
 let order = null;
 
 async function loadOrder() {
@@ -215,17 +220,20 @@ function sendWhatsApp(phone) {
 }
 
 function sendEmail(phone, name, email) {
-  const subject = `تم توصيل طلب — ${order.customer_name}`;
   const total = order.products.reduce((s,p) => s + p.qty, 0);
-  let body = `تم توصيل الطلب بنجاح ✅\n\n`;
-  body += `العميل: ${name || order.customer_name}\n`;
-  body += `الجوال: ${phone}\n`;
-  body += `التاريخ: ${new Date().toLocaleString('ar-SA')}\n\n`;
-  body += `المنتجات:\n`;
-  order.products.forEach((p,i) => { body += `${i+1}. ${p.name} — الكمية: ${p.qty}\n`; });
-  body += `\nالإجمالي: ${total} وحدة`;
-  const recipients = email ? `${email},${NOTIFY_EMAILS.join(',')}` : NOTIFY_EMAILS.join(',');
-  window.open(`mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  const params = {
+    to_email: email,
+    to_name: name || order.customer_name,
+    order_id: order.id.substring(0,8).toUpperCase(),
+    customer_name: name || order.customer_name,
+    customer_phone: phone,
+    delivery_date: new Date().toLocaleDateString('ar-SA'),
+    total_qty: total,
+    orders: order.products.map(p => ({ name: p.name, units: p.qty, price: `الكمية: ${p.qty}` }))
+  };
+  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, params)
+    .then(() => console.log('Email sent to customer!'))
+    .catch(err => console.error('Email error:', err));
 }
 
 function showError() {
