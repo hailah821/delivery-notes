@@ -3,134 +3,156 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>تفاصيل طلبك</title>
+<title>Delivery Note</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
 <style>
-:root {
-  --bg: #F7F5F0;
-  --surface: #FFFFFF;
-  --ink: #1C1A17;
-  --ink2: #6B6760;
-  --ink3: #AAA79F;
-  --accent: #C8521A;
-  --accent-light: #FAF0EA;
-  --green: #2D6A2D;
-  --green-light: #E8F5E8;
-  --border: rgba(28,26,23,0.1);
-  --border-mid: rgba(28,26,23,0.18);
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 36px 16px; }
-.wrap { max-width: 520px; margin: 0 auto; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-@keyframes pop { 0% { transform:scale(0.5); opacity:0; } 80% { transform:scale(1.1); } 100% { transform:scale(1); opacity:1; } }
-@keyframes spin { to { transform:rotate(360deg); } }
+body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; padding: 30px 16px; }
 
-.logo { display:flex; align-items:center; gap:12px; margin-bottom:24px; animation:fadeUp 0.3s ease; }
-.logo-mark { width:36px; height:36px; background:var(--ink); border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-size:16px; font-weight:600; }
-.logo span { font-size:15px; font-weight:500; color:var(--ink2); }
+.page { max-width: 700px; margin: 0 auto; }
 
-.card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:22px 26px; box-shadow:var(--shadow); margin-bottom:12px; animation:fadeUp 0.35s ease both; }
-.card:nth-child(2){animation-delay:.05s} .card:nth-child(3){animation-delay:.1s} .card:nth-child(4){animation-delay:.15s}
+.dn { background: white; border: 1px solid #ccc; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 
-.section-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:14px; }
-.customer-name { font-size:22px; font-weight:600; margin-bottom:4px; }
-.order-meta { font-size:13px; color:var(--ink3); }
-.status-badge { display:inline-flex; align-items:center; gap:6px; background:var(--accent-light); color:var(--accent); border-radius:20px; padding:4px 12px; font-size:12px; font-weight:500; margin-top:10px; }
+.dn-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 2px solid #1a1a1a; padding-bottom: 16px; }
+.dn-header .company h2 { font-size: 22px; font-weight: 700; color: #1a1a1a; letter-spacing: 1px; margin-bottom: 4px; }
+.dn-header .company p { font-size: 12px; color: #555; line-height: 1.6; direction: rtl; }
+.logo-text { font-size: 36px; font-weight: 800; color: #5B4FCF; letter-spacing: -1px; }
 
-table { width:100%; border-collapse:collapse; font-size:14px; }
-thead th { text-align:right; padding:8px 10px; font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3); border-bottom:1px solid var(--border); }
-tbody tr { border-bottom:1px solid var(--border); }
-tbody tr:last-child { border-bottom:none; }
-tbody td { padding:10px 10px; }
-.qty-badge { display:inline-flex; align-items:center; justify-content:center; background:var(--bg); border:1px solid var(--border-mid); border-radius:6px; width:32px; height:28px; font-size:13px; font-weight:500; }
+.dn-number { text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
 
-label { display:block; font-size:13px; font-weight:500; color:var(--ink2); margin-bottom:8px; }
-input[type="tel"] { font-family:'IBM Plex Sans Arabic',sans-serif; font-size:16px; color:var(--ink); background:var(--bg); border:1px solid var(--border-mid); border-radius:var(--radius-sm); padding:12px 14px; width:100%; outline:none; transition:all .15s; direction:ltr; text-align:right; }
-input[type="tel"]:focus { border-color:var(--accent); background:white; box-shadow:0 0 0 3px rgba(200,82,26,.08); }
+.info-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; direction: ltr; }
+.info-table td { border: 1px solid #999; padding: 8px 10px; }
+.info-table .label { font-weight: 600; color: #333; background: #f5f5f5; width: 160px; }
+.info-table .val { font-weight: 500; }
 
-.confirm-btn { width:100%; background:var(--green); color:white; border:none; border-radius:var(--radius-sm); padding:15px; font-family:'IBM Plex Sans Arabic',sans-serif; font-size:16px; font-weight:500; cursor:pointer; transition:all .15s; margin-top:14px; display:flex; align-items:center; justify-content:center; gap:8px; }
-.confirm-btn:hover { background:#1f4d1f; }
-.confirm-btn:disabled { opacity:.6; cursor:not-allowed; }
+.prod-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 13px; direction: ltr; }
+.prod-table th { border: 1px solid #999; padding: 8px 10px; background: #f5f5f5; font-weight: 600; color: #333; text-align: center; }
+.prod-table td { border: 1px solid #999; padding: 8px 10px; text-align: center; }
+.prod-table .no { color: #888; }
 
-.loading { text-align:center; padding:80px 20px; }
-.spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--ink); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 16px; }
+.dn-footer { font-size: 12px; color: #444; border-top: 1px solid #ccc; padding-top: 12px; margin-top: 8px; direction: ltr; }
 
-.error-screen { text-align:center; padding:80px 20px; }
-.error-screen h2 { font-size:20px; margin-bottom:8px; }
+/* Customer confirm section */
+.confirm-section { background: white; border: 1px solid #ccc; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.confirm-section h3 { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+.field input { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; color: #1a1a1a; background: #f9f9f9; border: 1px solid #ccc; border-radius: 4px; padding: 10px 12px; width: 100%; outline: none; transition: border 0.15s; }
+.field input:focus { border-color: #5B4FCF; background: white; }
 
-.success-screen { display:none; text-align:center; padding:20px; animation:fadeUp .4s ease; }
-.success-screen.show { display:block; }
-.checkmark { width:80px; height:80px; background:var(--green-light); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 20px; animation:pop .4s ease; }
-.success-screen h2 { font-size:24px; font-weight:600; margin-bottom:8px; color:var(--green); }
-.success-screen p { color:var(--ink2); font-size:14px; line-height:1.7; }
+.confirm-btn { width: 100%; background: #2D6A2D; color: white; border: none; padding: 14px; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; margin-top: 4px; }
+.confirm-btn:hover { background: #1f4d1f; }
+.confirm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--ink); color:white; border-radius:var(--radius-sm); padding:12px 20px; font-size:14px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:99; white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,.15); }
-.toast.show { opacity:1; }
+/* Loading */
+.loading { text-align: center; padding: 80px 20px; }
+.spinner { width: 36px; height: 36px; border: 3px solid #ddd; border-top-color: #1a1a1a; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error */
+.error-screen { text-align: center; padding: 80px 20px; }
+
+/* Success */
+.success-screen { display: none; text-align: center; background: white; border: 1px solid #ccc; padding: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.success-screen.show { display: block; }
+.check { width: 72px; height: 72px; background: #E8F5E8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
+.success-screen h2 { font-size: 22px; font-weight: 600; color: #2D6A2D; margin-bottom: 8px; }
+.success-screen p { color: #555; font-size: 14px; }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 20px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 99; }
+.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="logo">
-    <div class="logo-mark">ت</div>
-    <span>نظام التوصيل</span>
-  </div>
+<div class="page">
 
+  <!-- Loading -->
   <div id="loading-screen" class="loading">
     <div class="spinner"></div>
-    <p style="color:var(--ink2);font-size:14px">جارٍ تحميل بيانات الطلب...</p>
+    <p style="color:#888;font-size:14px">جارٍ تحميل بيانات الطلب...</p>
   </div>
 
+  <!-- Error -->
   <div id="error-screen" class="error-screen" style="display:none">
-    <div style="font-size:40px;margin-bottom:12px">⚠️</div>
-    <h2>الطلب غير موجود</h2>
-    <p style="color:var(--ink2);font-size:14px">الرابط غير صحيح أو انتهت صلاحيته</p>
+    <p style="font-size:40px;margin-bottom:12px">⚠️</p>
+    <h2 style="font-size:18px;margin-bottom:8px">الطلب غير موجود</h2>
+    <p style="color:#888;font-size:14px">الرابط غير صحيح أو انتهت صلاحيته</p>
   </div>
 
+  <!-- Order Content -->
   <div id="order-content" style="display:none">
-    <div class="card">
-      <div class="customer-name" id="cust-name-display"></div>
-      <div class="order-meta" id="order-date-display"></div>
-      <div class="status-badge">🚚 قيد التوصيل</div>
-    </div>
+    <div class="dn">
+      <div class="dn-header">
+        <div class="company">
+          <h2>DELIVERY NOTE</h2>
+          <p>شركة تطبيق يجي لتقنية المعلومات<br/>
+          7971 Prince Ahmad ibn Abdulaziz<br/>
+          Al Woroud District, Riyadh<br/>
+          12254 Saudi Arabia</p>
+        </div>
+        <div class="logo-text">Ygii</div>
+      </div>
 
-    <div class="card">
-      <div class="section-label">تفاصيل الطلب</div>
-      <table>
+      <div class="dn-number" id="dn-number">Delivery Note</div>
+
+      <table class="info-table">
+        <tr>
+          <td class="label">Company Name</td>
+          <td class="val" id="company-name-display"></td>
+          <td class="label">Company No</td>
+          <td class="val" id="company-no-display"></td>
+        </tr>
+        <tr>
+          <td class="label">Date</td>
+          <td class="val" id="date-display"></td>
+          <td class="label">Delivery Order No</td>
+          <td class="val" id="delivery-no-display"></td>
+        </tr>
+      </table>
+
+      <table class="prod-table">
         <thead>
           <tr>
-            <th>المنتج</th>
-            <th style="text-align:center;width:80px">الكمية</th>
-            <th style="width:110px">ملاحظة</th>
+            <th style="width:50px">NO</th>
+            <th>Statement / البيان</th>
+            <th style="width:120px">Quantity / الكمية</th>
           </tr>
         </thead>
         <tbody id="products-display"></tbody>
       </table>
+
+      <div class="dn-footer">
+        <p>All products were received as mentioned above with accepted quantity and quality by the client</p>
+        <p style="margin-top:8px">التوقيع: ___________________</p>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="section-label">تأكيد الاستلام</div>
-      <label>الاسم *</label>
-      <input type="text" id="cust-name-input" placeholder="أدخل اسمك" style="display:block;width:100%;margin-bottom:12px;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--border-mid);border-radius:var(--radius-sm);padding:12px 14px;outline:none;" />
-      <label>رقم الجوال *</label>
-      <input type="tel" id="cust-phone" placeholder="05xxxxxxxx" style="margin-bottom:12px" />
-      <label>الإيميل *</label>
-      <input type="email" id="cust-email" placeholder="example@email.com" style="display:block;width:100%;margin-bottom:0;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--border-mid);border-radius:var(--radius-sm);padding:12px 14px;outline:none;direction:ltr;text-align:right;" />
-      <button class="confirm-btn" id="confirm-btn">
-        ✅ تم الاستلام
-      </button>
+    <!-- Customer Confirm -->
+    <div class="confirm-section">
+      <h3>تأكيد الاستلام — يرجى تعبئة البيانات</h3>
+      <div class="field">
+        <label>الاسم *</label>
+        <input type="text" id="cust-name-input" placeholder="أدخل اسمك" />
+      </div>
+      <div class="field">
+        <label>رقم الجوال *</label>
+        <input type="tel" id="cust-phone" placeholder="05xxxxxxxx" />
+      </div>
+      <div class="field">
+        <label>الإيميل *</label>
+        <input type="email" id="cust-email" placeholder="example@email.com" style="direction:ltr;text-align:right" />
+      </div>
+      <button class="confirm-btn" id="confirm-btn">✅ تم الاستلام — Received</button>
     </div>
   </div>
 
+  <!-- Success -->
   <div class="success-screen" id="success-screen">
-    <div class="checkmark">✓</div>
+    <div class="check">✓</div>
     <h2>تم الاستلام بنجاح!</h2>
-    <p>شكراً لك! تم تسجيل استلامك للطلب.<br/>سيصلك الإيصال على واتساب الآن.</p>
+    <p>شكراً لك! سيصلك الإيصال على إيميلك قريباً.</p>
   </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -164,13 +186,17 @@ async function loadOrder() {
 
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('order-content').style.display = 'block';
-  document.getElementById('cust-name-display').textContent = data.customer_name;
-  document.getElementById('order-date-display').textContent = 'تاريخ الطلب: ' + new Date(data.created_at).toLocaleDateString('ar-SA', { year:'numeric', month:'long', day:'numeric' });
+
+  document.getElementById('company-name-display').textContent = data.customer_name || '';
+  document.getElementById('company-no-display').textContent = data.company_no || '';
+  document.getElementById('date-display').textContent = data.order_date ? new Date(data.order_date).toLocaleDateString('en-GB') : new Date(data.created_at).toLocaleDateString('en-GB');
+  document.getElementById('delivery-no-display').textContent = data.delivery_no || data.id.substring(0,8).toUpperCase();
+  document.getElementById('dn-number').textContent = 'Delivery Note — ' + (data.delivery_no || '');
 
   const tbody = document.getElementById('products-display');
-  data.products.forEach(p => {
+  data.products.forEach((p, i) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="font-weight:500">${p.name}</td><td style="text-align:center"><span class="qty-badge">${p.qty}</span></td><td style="color:var(--ink3);font-size:13px">${p.note||'—'}</td>`;
+    tr.innerHTML = `<td class="no">${i+1}</td><td style="text-align:right;direction:rtl">${p.name}</td><td>${p.qty}</td>`;
     tbody.appendChild(tr);
   });
 }
@@ -179,6 +205,7 @@ async function confirmDelivery() {
   const name = document.getElementById('cust-name-input').value.trim();
   const phone = document.getElementById('cust-phone').value.trim();
   const email = document.getElementById('cust-email').value.trim();
+
   if (!name) { showToast('❌ أدخل اسمك'); return; }
   if (!phone || phone.length < 9) { showToast('❌ أدخل رقم جوال صحيح'); return; }
   if (!email) { showToast('❌ أدخل إيميلك'); return; }
@@ -186,53 +213,28 @@ async function confirmDelivery() {
   const btn = document.getElementById('confirm-btn');
   btn.disabled = true; btn.textContent = 'جارٍ المعالجة...';
 
-  await sb.from('orders').update({ status: 'delivered', customer_phone: phone, customer_name_confirmed: name, customer_email: email }).eq('id', order.id);
+  await sb.from('orders').update({ status: 'delivered', customer_phone: phone, customer_email: email, customer_name_confirmed: name }).eq('id', order.id);
 
   document.getElementById('order-content').style.display = 'none';
   document.getElementById('success-screen').classList.add('show');
 
-  setTimeout(() => {
-    sendWhatsApp(phone);
-    sendEmail(phone, name, email);
-  }, 600);
-}
-
-function sendWhatsApp(phone) {
-  const clean = phone.replace(/\D/g,'');
-  const full = clean.startsWith('966') ? clean : '966' + clean.replace(/^0/,'');
-  const total = order.products.reduce((s,p) => s + p.qty, 0);
-  const date = new Date().toLocaleDateString('ar-SA');
-
-  let msg = `✅ إيصال استلام\n`;
-  msg += `━━━━━━━━━━━━━━\n`;
-  msg += `👤 الاسم: ${order.customer_name}\n`;
-  msg += `📅 التاريخ: ${date}\n`;
-  msg += `🔖 رقم الطلب: ${order.id.substring(0,8).toUpperCase()}\n`;
-  msg += `━━━━━━━━━━━━━━\n📦 المنتجات:\n`;
-  order.products.forEach((p,i) => {
-    msg += `${i+1}. ${p.name} — الكمية: ${p.qty}${p.note ? ` (${p.note})` : ''}\n`;
-  });
-  msg += `━━━━━━━━━━━━━━\n`;
-  msg += `📊 الإجمالي: ${total} وحدة\n`;
-  msg += `✔️ تم الاستلام بنجاح\n\nشكراً لثقتكم 🙏`;
-
-  window.open(`https://wa.me/${full}?text=${encodeURIComponent(msg)}`, '_blank');
+  setTimeout(() => sendEmail(phone, name, email), 600);
 }
 
 function sendEmail(phone, name, email) {
   const total = order.products.reduce((s,p) => s + p.qty, 0);
   const params = {
     email: email,
-    to_name: name || order.customer_name,
-    order_id: order.id.substring(0,8).toUpperCase(),
-    customer_name: name || order.customer_name,
+    to_name: name,
+    order_id: order.delivery_no || order.id.substring(0,8).toUpperCase(),
+    customer_name: name,
     customer_phone: phone,
     delivery_date: new Date().toLocaleDateString('ar-SA'),
     total_qty: total,
-    orders: order.products.map(p => ({ name: p.name, units: p.qty, price: `الكمية: ${p.qty}` }))
+    orders: order.products.map(p => ({ name: p.name, units: p.qty, price: '' }))
   };
   emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, params)
-    .then(() => console.log('Email sent to customer!'))
+    .then(() => console.log('Email sent!'))
     .catch(err => console.error('Email error:', err));
 }
 
@@ -247,12 +249,12 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-loadOrder();
-
 document.addEventListener('DOMContentLoaded', function() {
   var btn = document.getElementById('confirm-btn');
   if (btn) btn.addEventListener('click', confirmDelivery);
 });
+
+loadOrder();
 </script>
 </body>
 </html>
