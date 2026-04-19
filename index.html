@@ -240,7 +240,7 @@ async function submitOrder() {
     driver_phone: d.driverPhone,
     delivery_no: d.deliveryNo,
     company_no: d.companyNo,
-    order_date: d.date || null
+    order_date: d.date ? (function(s){ const p=s.split(/[\/\\-]/); return p.length===3 ? p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0') : null; })(d.date) : null
   }]).select().single();
 
   if (error) {
