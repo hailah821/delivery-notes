@@ -114,9 +114,13 @@ input[type="tel"]:focus { border-color:var(--accent); background:white; box-shad
 
     <div class="card">
       <div class="section-label">تأكيد الاستلام</div>
-      <label>أدخل رقم جوالك لتأكيد الاستلام وإرسال الإيصال</label>
-      <input type="tel" id="cust-phone" placeholder="05xxxxxxxx" />
-      <button class="confirm-btn" id="confirm-btn" onclick="confirmDelivery()">
+      <label>الاسم *</label>
+      <input type="text" id="cust-name-input" placeholder="أدخل اسمك" style="margin-bottom:12px" />
+      <label>رقم الجوال *</label>
+      <input type="tel" id="cust-phone" placeholder="05xxxxxxxx" style="margin-bottom:12px" />
+      <label>الإيميل *</label>
+      <input type="email" id="cust-email" placeholder="example@email.com" style="margin-bottom:0;direction:ltr;text-align:right" />
+      <button class="confirm-btn" id="confirm-btn">
         ✅ تم الاستلام
       </button>
     </div>
@@ -167,20 +171,24 @@ async function loadOrder() {
 }
 
 async function confirmDelivery() {
+  const name = document.getElementById('cust-name-input').value.trim();
   const phone = document.getElementById('cust-phone').value.trim();
+  const email = document.getElementById('cust-email').value.trim();
+  if (!name) { showToast('❌ أدخل اسمك'); return; }
   if (!phone || phone.length < 9) { showToast('❌ أدخل رقم جوال صحيح'); return; }
+  if (!email) { showToast('❌ أدخل إيميلك'); return; }
 
   const btn = document.getElementById('confirm-btn');
   btn.disabled = true; btn.textContent = 'جارٍ المعالجة...';
 
-  await sb.from('orders').update({ status: 'delivered', customer_phone: phone }).eq('id', order.id);
+  await sb.from('orders').update({ status: 'delivered', customer_phone: phone, customer_name_confirmed: name, customer_email: email }).eq('id', order.id);
 
   document.getElementById('order-content').style.display = 'none';
   document.getElementById('success-screen').classList.add('show');
 
   setTimeout(() => {
     sendWhatsApp(phone);
-    sendEmail(phone);
+    sendEmail(phone, name, email);
   }, 600);
 }
 
@@ -206,17 +214,18 @@ function sendWhatsApp(phone) {
   window.open(`https://wa.me/${full}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-function sendEmail(phone) {
+function sendEmail(phone, name, email) {
   const subject = `تم توصيل طلب — ${order.customer_name}`;
   const total = order.products.reduce((s,p) => s + p.qty, 0);
   let body = `تم توصيل الطلب بنجاح ✅\n\n`;
-  body += `العميل: ${order.customer_name}\n`;
+  body += `العميل: ${name || order.customer_name}\n`;
   body += `الجوال: ${phone}\n`;
   body += `التاريخ: ${new Date().toLocaleString('ar-SA')}\n\n`;
   body += `المنتجات:\n`;
   order.products.forEach((p,i) => { body += `${i+1}. ${p.name} — الكمية: ${p.qty}\n`; });
   body += `\nالإجمالي: ${total} وحدة`;
-  window.open(`mailto:${NOTIFY_EMAILS.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  const recipients = email ? `${email},${NOTIFY_EMAILS.join(',')}` : NOTIFY_EMAILS.join(',');
+  window.open(`mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
 }
 
 function showError() {
