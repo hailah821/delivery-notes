@@ -116,6 +116,7 @@ body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; pad
             <th style="width:50px">NO</th>
             <th>Statement / البيان</th>
             <th style="width:120px">Quantity / الكمية</th>
+            <th style="width:120px">Price / السعر</th>
           </tr>
         </thead>
         <tbody id="products-display"></tbody>
@@ -196,7 +197,7 @@ async function loadOrder() {
   const tbody = document.getElementById('products-display');
   data.products.forEach((p, i) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="no">${i+1}</td><td style="text-align:right;direction:rtl">${p.name}</td><td>${p.qty}</td>`;
+    tr.innerHTML = `<td class="no">${i+1}</td><td style="text-align:right;direction:rtl">${p.name}</td><td>${p.qty}</td><td>${p.price || '—'}</td>`;
     tbody.appendChild(tr);
   });
 }
