@@ -179,15 +179,9 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let rowCount = 0;
 
-// Set today's date
-document.getElementById('order-date').value = new Date().toISOString().split('T')[0];
+// Date and delivery number are manual
 
-// Generate delivery number
-async function genDeliveryNo() {
-  const { count } = await sb.from('orders').select('*', { count: 'exact', head: true });
-  document.getElementById('delivery-no').value = 'DN-' + String((count || 0) + 1).padStart(3, '0');
-}
-genDeliveryNo();
+// Delivery number is manual
 
 function addRow() {
   const tbody = document.getElementById('products-body');
@@ -283,8 +277,8 @@ function resetForm() {
   rowCount = 0;
   const btn = document.getElementById('submit-btn');
   btn.disabled = false; btn.textContent = 'إنشاء الطلب وإرسال للمندوب';
-  document.getElementById('order-date').value = new Date().toISOString().split('T')[0];
-  genDeliveryNo();
+  document.getElementById('order-date').value = '';
+  document.getElementById('delivery-no').value = '';
   addRow(); addRow();
 }
 
