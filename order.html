@@ -248,6 +248,11 @@ function showToast(msg) {
 }
 
 loadOrder();
+
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('confirm-btn');
+  if (btn) btn.addEventListener('click', confirmDelivery);
+});
 </script>
 </body>
 </html>
