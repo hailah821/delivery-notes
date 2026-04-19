@@ -132,7 +132,6 @@ body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; pad
             <th class="no">NO</th>
             <th>Statement / البيان</th>
             <th style="width:100px">Quantity / الكمية</th>
-            <th style="width:100px">Price / السعر</th>
             <th style="width:30px"></th>
           </tr>
         </thead>
@@ -194,7 +193,6 @@ function addRow() {
     <td class="no">${num}</td>
     <td><input type="text" placeholder="اسم المنتج / البيان" /></td>
     <td><input type="number" min="1" value="1" /></td>
-    <td><input type="text" placeholder="0.00" /></td>
     <td><button class="del-btn" data-id="${id}">×</button></td>
   `;
   tbody.appendChild(tr);
