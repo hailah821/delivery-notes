@@ -229,7 +229,7 @@ function sendEmail(phone, name, email) {
     order_id: order.delivery_no || order.id.substring(0,8).toUpperCase(),
     customer_name: name,
     customer_phone: phone,
-    delivery_date: new Date().toLocaleDateString('ar-SA'),
+    delivery_date: new Date().toLocaleDateString('en-GB'),
     total_qty: total,
     orders: order.products.map(p => ({ name: p.name, units: p.qty, price: '' }))
   };
