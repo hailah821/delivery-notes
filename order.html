@@ -223,6 +223,7 @@ async function confirmDelivery() {
 
 function sendEmail(phone, name, email) {
   const total = order.products.reduce((s,p) => s + p.qty, 0);
+  const productsList = order.products.map((p,i) => (i+1) + '. ' + p.name + ' — Qty: ' + p.qty).join('\n');
   const params = {
     email: email,
     to_name: name,
@@ -231,6 +232,7 @@ function sendEmail(phone, name, email) {
     customer_phone: phone,
     delivery_date: new Date().toLocaleDateString('en-GB'),
     total_qty: total,
+    products_list: productsList,
     orders: order.products.map(p => ({ name: p.name, units: p.qty, price: '' }))
   };
   emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, params)
