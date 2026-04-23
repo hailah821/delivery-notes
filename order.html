@@ -188,7 +188,7 @@ async function loadOrder() {
   document.getElementById('order-content').style.display = 'block';
 
   document.getElementById('company-name-display').textContent = data.customer_name || '';
-  document.getElementById('company-no-display').textContent = data.company_no || '';
+  
   document.getElementById('date-display').textContent = data.order_date ? new Date(data.order_date).toLocaleDateString('en-GB') : new Date(data.created_at).toLocaleDateString('en-GB');
   document.getElementById('delivery-no-display').textContent = data.delivery_no || data.id.substring(0,8).toUpperCase();
   document.getElementById('dn-number').textContent = 'Delivery Note — ' + (data.delivery_no || '');
