@@ -253,7 +253,7 @@ async function submitOrder() {
   const orderUrl = `https://delivery-notes-ashy.vercel.app/order.html?id=${data.id}`;
   const phone = d.driverPhone.replace(/\D/g, '');
   const full = phone.startsWith('966') ? phone : '966' + phone.replace(/^0/, '');
-  const msg = `📦 Delivery Note جديد\nالعميل: ${d.companyName}\nرقم الطلب: ${d.deliveryNo}\n\nافتح الرابط أمام العميل:\n${orderUrl}`;
+  const msg = `📦 New Delivery Note\nClient: ${d.companyName}\nDelivery Note No: ${d.deliveryNo}\n\nOpen the link in front of the client:\n${orderUrl}`;
   window.open(`https://wa.me/${full}?text=${encodeURIComponent(msg)}`, '_blank');
 
   document.getElementById('main-form').style.display = 'none';
