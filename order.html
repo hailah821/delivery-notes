@@ -224,13 +224,15 @@ async function confirmDelivery() {
 function sendEmail(phone, name, email) {
   const total = order.products.reduce((s,p) => s + p.qty, 0);
   const productsList = order.products.map((p,i) => (i+1) + '. ' + p.name + ' — Qty: ' + p.qty).join('\n');
+  const deliveryNo = order.delivery_no || order.id.substring(0,8).toUpperCase();
+  const deliveryDate = order.order_date || new Date().toLocaleDateString('en-GB');
   const params = {
     email: email,
     to_name: name,
-    order_id: order.delivery_no || order.id.substring(0,8).toUpperCase(),
+    order_id: deliveryNo,
     customer_name: name,
     customer_phone: phone,
-    delivery_date: new Date().toLocaleDateString('en-GB'),
+    delivery_date: deliveryDate,
     total_qty: total,
     products_list: productsList,
     orders: order.products.map(p => ({ name: p.name, units: p.qty, price: '' }))
