@@ -225,7 +225,9 @@ function sendEmail(phone, name, email) {
   const total = order.products.reduce((s,p) => s + p.qty, 0);
   const productsList = order.products.map((p,i) => (i+1) + '. ' + p.name + ' — Qty: ' + p.qty).join('\n');
   const deliveryNo = order.delivery_no || order.id.substring(0,8).toUpperCase();
-  const deliveryDate = '‎' + (order.order_date || new Date().toLocaleDateString('en-GB'));
+  const rawDate = order.order_date || new Date().toLocaleDateString('en-GB');
+  const parts = rawDate.split('-');
+  const deliveryDate = parts.length === 3 ? parts[2] + '/' + parts[1] + '/' + parts[0] : rawDate;
   const params = {
     email: email,
     to_name: name,
