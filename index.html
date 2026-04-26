@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('order-date').value = new Date().toLocaleDateString('en-GB');
   // Auto delivery number
   sb.from('orders').select('*', { count: 'exact', head: true }).then(function(res) {
-    document.getElementById('delivery-no').value = 500 + (res.count || 0) + 1;
+    document.getElementById('delivery-no').value = 499 + (res.count || 0) + 1;
   });
   document.getElementById('add-row-btn').addEventListener('click', addRow);
   document.getElementById('submit-btn').addEventListener('click', submitOrder);
