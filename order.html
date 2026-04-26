@@ -225,7 +225,8 @@ async function confirmDelivery() {
 
 function sendEmail(phone, name, email) {
   const total = order.products.reduce((s,p) => s + p.qty, 0);
-  const productsList = order.products.map((p,i) => (i+1) + '. ' + p.name + ' — Qty: ' + p.qty).join('\n');
+  var rows = order.products.map((p,i) => '<tr><td style=\"border:1px solid #ddd;padding:8px;text-align:center\">' + (i+1) + '</td><td style=\"border:1px solid #ddd;padding:8px\">' + p.name + '</td><td style=\"border:1px solid #ddd;padding:8px;text-align:center\">' + p.qty + '</td></tr>').join('');
+  const productsList = '<table style=\"width:100%;border-collapse:collapse;font-size:13px\"><thead><tr style=\"background:#484888;color:white\"><th style=\"padding:10px;width:50px\">NO</th><th style=\"padding:10px;text-align:left\">Statement</th><th style=\"padding:10px;width:80px\">Qty</th></tr></thead><tbody>' + rows + '</tbody></table>';
   const deliveryNo = order.delivery_no || order.id.substring(0,8).toUpperCase();
   const rawDate = order.order_date || new Date().toLocaleDateString('en-GB');
   const parts = rawDate.split('-');
