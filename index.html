@@ -288,12 +288,22 @@ function initSig() {
   canvas.addEventListener('mouseup', function() { drawing=false; });
   canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing=true; var t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.beginPath(); ctx.moveTo(t.clientX-r.left,t.clientY-r.top); });
   canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if(!drawing) return; var t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.lineTo(t.clientX-r.left,t.clientY-r.top); ctx.stroke(); });
-  canvas.addEventListener('touchend', function() { drawing=false; });
-  document.getElementById('clear-sig').addEventListener('click', function() { ctx.clearRect(0,0,canvas.width,canvas.height); localStorage.removeItem('signature'); });
-  canvas.addEventListener('mouseup', function() { drawing=false; localStorage.setItem('signature', canvas.toDataURL()); });
-  canvas.addEventListener('touchend', function() { drawing=false; localStorage.setItem('signature', canvas.toDataURL()); });
-  var saved = localStorage.getItem('signature');
-  if (saved) { var img = new Image(); img.onload = function() { ctx.drawImage(img, 0, 0); }; img.src = saved; }
+  canvas.addEventListener('touchend', function() { drawing=false; saveSignature(); });
+  canvas.addEventListener('mouseup', function() { drawing=false; saveSignature(); });
+  document.getElementById('clear-sig').addEventListener('click', function() { ctx.clearRect(0,0,canvas.width,canvas.height); sb.from('settings').update({value:''}).eq('key','signature'); });
+  loadSignature();
+}
+async function saveSignature() {
+  var data = canvas.toDataURL();
+  await sb.from('settings').update({value: data}).eq('key', 'signature');
+}
+async function loadSignature() {
+  var res = await sb.from('settings').select('value').eq('key', 'signature').single();
+  if (res.data && res.data.value) {
+    var img = new Image();
+    img.onload = function() { ctx.drawImage(img, 0, 0); };
+    img.src = res.data.value;
+  }
 }
 document.addEventListener('DOMContentLoaded', function() {
   initSig();
