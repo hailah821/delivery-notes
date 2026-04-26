@@ -279,31 +279,18 @@ function resetForm() {
 
 var canvas, ctx, drawing = false;
 function initSig() {
-  canvas = document.getElementById('signature-pad');
-  if (!canvas) return;
-  ctx = canvas.getContext('2d');
-  ctx.strokeStyle = '#484888'; ctx.lineWidth = 2; ctx.lineCap = 'round';
-  canvas.addEventListener('mousedown', function(e) { drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY); });
-  canvas.addEventListener('mousemove', function(e) { if(!drawing) return; ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke(); });
-  canvas.addEventListener('mouseup', function() { drawing=false; });
-  canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing=true; var t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.beginPath(); ctx.moveTo(t.clientX-r.left,t.clientY-r.top); });
-  canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if(!drawing) return; var t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.lineTo(t.clientX-r.left,t.clientY-r.top); ctx.stroke(); });
-  canvas.addEventListener('touchend', function() { drawing=false; saveSignature(); });
-  canvas.addEventListener('mouseup', function() { drawing=false; saveSignature(); });
-  document.getElementById('clear-sig').addEventListener('click', function() { ctx.clearRect(0,0,canvas.width,canvas.height); sb.from('settings').update({value:''}).eq('key','signature'); });
+  var sig = document.getElementById('signature-text');
+  if (!sig) return;
   loadSignature();
+  sig.addEventListener('input', function() { saveSignature(sig.value); });
 }
-async function saveSignature() {
-  var data = canvas.toDataURL();
-  await sb.from('settings').update({value: data}).eq('key', 'signature');
+async function saveSignature(val) {
+  await sb.from('settings').update({value: val}).eq('key', 'signature');
 }
 async function loadSignature() {
+  var sig = document.getElementById('signature-text');
   var res = await sb.from('settings').select('value').eq('key', 'signature').single();
-  if (res.data && res.data.value) {
-    var img = new Image();
-    img.onload = function() { ctx.drawImage(img, 0, 0); };
-    img.src = res.data.value;
-  }
+  if (res.data && res.data.value && sig) sig.value = res.data.value;
 }
 document.addEventListener('DOMContentLoaded', function() {
   initSig();
