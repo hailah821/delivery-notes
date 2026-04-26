@@ -296,8 +296,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Auto fill date
   document.getElementById('order-date').value = new Date().toLocaleDateString('en-GB');
   // Auto delivery number
-  sb.from('orders').select('*', { count: 'exact', head: true }).then(function(res) {
-    document.getElementById('delivery-no').value = 499;
+  sb.from('orders').select('delivery_no').not('delivery_no', 'is', null).then(function(res) {
+    var nums = (res.data || []).map(function(r) { return parseInt(r.delivery_no) || 0; });
+    var max = nums.length > 0 ? Math.max.apply(null, nums) : 499;
+    document.getElementById('delivery-no').value = max < 499 ? 500 : max + 1;
   });
   document.getElementById('add-row-btn').addEventListener('click', addRow);
   document.getElementById('submit-btn').addEventListener('click', submitOrder);
