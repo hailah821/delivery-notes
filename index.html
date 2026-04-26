@@ -140,7 +140,9 @@ body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; pad
       <!-- Footer -->
       <div class="dn-footer">
         <p>All products were received as mentioned above with accepted quantity and quality by the client</p>
-        <p style="margin-top:8px">التوقيع: ___________________</p>
+        <p style="margin-top:8px">التوقيع / Signature:</p>
+        <canvas id="signature-pad" width="400" height="80" style="border:1px solid #999;background:white;cursor:crosshair;touch-action:none;max-width:100%;margin-top:6px"></canvas>
+        <br/><button type="button" id="clear-sig" style="background:none;border:1px solid #ccc;padding:4px 10px;font-size:11px;cursor:pointer;color:#666;margin-top:4px">مسح</button>
       </div>
     </div>
 
