@@ -290,7 +290,11 @@ function initSig() {
   canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing=true; var t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.beginPath(); ctx.moveTo(t.clientX-r.left,t.clientY-r.top); });
   canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if(!drawing) return; var t=e.touches[0],r=canvas.getBoundingClientRect(); ctx.lineTo(t.clientX-r.left,t.clientY-r.top); ctx.stroke(); });
   canvas.addEventListener('touchend', function() { drawing=false; });
-  document.getElementById('clear-sig').addEventListener('click', function() { ctx.clearRect(0,0,canvas.width,canvas.height); });
+  document.getElementById('clear-sig').addEventListener('click', function() { ctx.clearRect(0,0,canvas.width,canvas.height); localStorage.removeItem('signature'); });
+  canvas.addEventListener('mouseup', function() { drawing=false; localStorage.setItem('signature', canvas.toDataURL()); });
+  canvas.addEventListener('touchend', function() { drawing=false; localStorage.setItem('signature', canvas.toDataURL()); });
+  var saved = localStorage.getItem('signature');
+  if (saved) { var img = new Image(); img.onload = function() { ctx.drawImage(img, 0, 0); }; img.src = saved; }
 }
 document.addEventListener('DOMContentLoaded', function() {
   initSig();
