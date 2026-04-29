@@ -7,7 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; padding: 30px 16px; }
+body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; margin: 0; display: flex; min-height: 100vh; }
+.sidebar { width: 200px; background: #484888; min-height: 100vh; padding: 24px 0; flex-shrink: 0; position: fixed; top: 0; left: 0; }
+.sidebar .logo { color: white; font-size: 24px; font-weight: 900; padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 12px; }
+.sidebar a { display: block; color: rgba(255,255,255,0.7); text-decoration: none; padding: 10px 20px; font-size: 13px; transition: all 0.15s; }
+.sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.15); color: white; }
+.main-content { margin-left: 200px; padding: 30px 16px; flex: 1; }
 
 .page { max-width: 700px; margin: 0 auto; }
 
@@ -85,6 +90,12 @@ body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; pad
 </style>
 </head>
 <body>
+<div class="sidebar">
+  <div class="logo">Ygii</div>
+  <a href="index.html" class="active">📋 New Order</a>
+  <a href="orders.html">📦 Previous Orders</a>
+</div>
+<div class="main-content">
 <div class="page">
 
   <div id="main-form">
@@ -153,8 +164,7 @@ body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #F0F0F0; pad
       </div>
     </div>
 
-    <a href="orders.html" style="display:block;text-align:center;color:#484888;font-size:13px;margin-bottom:12px;text-decoration:none;border:1px solid #484888;padding:10px;background:white;">Previous Orders</a>
-<button class="submit-btn" id="submit-btn">إنشاء الطلب وإرسال للمندوب</button>
+    <button class="submit-btn" id="submit-btn">إنشاء الطلب وإرسال للمندوب</button>
   </div>
 
   <!-- Success -->
@@ -309,5 +319,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 addRow(); addRow();
 </script>
+</div></div>
 </body>
 </html>
